@@ -1,0 +1,13 @@
+# run: maestro test -p web --headless -e API_URL=http://localhost:5000/api/v1 .maestro/hit-counter/02-click-increments.yaml
+# needs: backend (port 5000) and frontend (port 3000) running; adds one real hit
+url: http://localhost:3000
+---
+- runScript:
+    file: scripts/hit-count.js
+    env:
+      API_URL: ${API_URL}
+- launchApp
+- assertVisible: "Hits: ${output.count}"
+- tapOn: "Hit the API"
+- assertVisible: "Hits: ${output.nextCount}"
+- assertVisible: "Hit the API"
